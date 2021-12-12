@@ -1,0 +1,1 @@
+# yaruo-start-tempalte
