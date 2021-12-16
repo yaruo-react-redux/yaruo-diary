@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode=production",
-    "build:dev": "webpack --mode=development",
-    "build:prod": "webpack --mode=production",
-    "start": "webpack serve"
+    "build": "webpack --config webpack.prod.js",
+    "build:dev": "webpack --config webpack.dev.js",
+    "build:prod": "webpack --config webpack.prod.js",
+    "start": "webpack serve --config webpack.dev.js"
   },
   "repository": {
     "type": "git",
