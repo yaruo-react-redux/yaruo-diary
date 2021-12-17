@@ -8,7 +8,10 @@ function component() {
   const element = document.createElement('div');
 
   // Lodash, now imported by this script
-  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+  const myName = 'やる夫';
+  const words = 'こまけぇこたぁいいんだよ〜';
+  const message = `<br />${myName}の口グセなのか？<br />${words}`;
+  element.innerHTML = _.join(['webpack', '動いてるお〜'], ' ') + message;
 
   return element;
 }
