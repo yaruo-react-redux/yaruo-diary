@@ -22,7 +22,10 @@
   },
   "homepage": "https://github.com/yaruo-react-redux/yaruo-start-template#readme",
   "devDependencies": {
+    "@babel/core": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
     "@webpack-cli/generators": "^2.4.1",
+    "babel-loader": "^8.2.3",
     "css-loader": "^6.5.1",
     "css-minimizer-webpack-plugin": "^3.2.0",
     "html-webpack-plugin": "^5.5.0",
