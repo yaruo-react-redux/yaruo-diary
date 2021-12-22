@@ -10,7 +10,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'index.html',
+      template: 'src/index.html',
     }),
   ],
   module: {
@@ -21,7 +21,7 @@ module.exports = {
         exclude: ['/node_modules/'],
       },
       {
-        test: /\.m?js$/,
+        test: /\.(js|jsx)/i,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -37,6 +37,6 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.tsx', '.ts', '.js', '.jsx'],
   },
 };
