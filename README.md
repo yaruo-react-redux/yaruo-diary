@@ -1,7 +1,9 @@
 # yaruo-start-tempalte
 
 React/Typescript 環境をゼロから構築しています。
+
 ![やる夫](./src/assets/images/yaruo.png)
+
 ステップ毎にブランチを分けてあります。
 
 <dl>
