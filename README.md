@@ -4,7 +4,7 @@ React/Typescript 環境をゼロから構築しています。
 
 ![やる夫](./src/assets/images/yaruo.png)
 
-ステップ毎にブランチを分けてあります。
+## ステップ毎にブランチを分けてあります。
 
 <dl>
   <dt>01_start-node-project</dt>
