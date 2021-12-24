@@ -48,5 +48,11 @@ module.exports = {
         unnamedComponents: 'arrow-function',
       },
     ],
+    'no-void': [
+      'error',
+      {
+        allowAsStatement: true,
+      },
+    ],
   },
 };
