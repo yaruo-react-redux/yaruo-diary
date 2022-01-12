@@ -1,5 +1,5 @@
 {
-  "name": "yaruo-start-template",
+  "name": "yaruo-diary",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -16,15 +16,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yaruo-react-redux/yaruo-start-template.git"
+    "url": "git+https://github.com/yaruo-react-redux/yaruo-diary.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/yaruo-react-redux/yaruo-start-template/issues"
+    "url": "https://github.com/yaruo-react-redux/yaruo-diary/issues"
   },
-  "homepage": "https://github.com/yaruo-react-redux/yaruo-start-template#readme",
+  "homepage": "https://github.com/yaruo-react-redux/yaruo-diary#readme",
   "devDependencies": {
     "@babel/core": "^7.16.5",
     "@babel/preset-env": "^7.16.5",
