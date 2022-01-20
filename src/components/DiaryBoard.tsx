@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -6,12 +6,26 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
+import IconButton from '@mui/material/IconButton';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 import { Diary } from '../diaryData';
 import DiaryCard from './DiaryCard';
+import DiaryFormDialog from './DiaryFormDialog';
 
 export type DiaryBoardProps = {
   diaries: Diary[];
+};
+
+// diary初期化データ
+const initialDiary: Diary = {
+  diaryId: '',
+  title: '',
+  postDate: '',
+  imageUrl: '',
+  imageLabel: '',
+  mainContent: '',
+  readmore: [],
 };
 
 const Copyright = () => (
@@ -27,13 +41,32 @@ const Copyright = () => (
 const DiaryBoard = (props: DiaryBoardProps) => {
   const { diaries } = props;
 
+  // DiaryFormDialogの開閉状態
+  const [openDialog, setOpenDialog] = useState(false);
+
+  // 新規データでDiaryFormDialogを開く
+  const openForm = () => setOpenDialog(true);
+
   return (
     <>
       <AppBar position='relative'>
         <Toolbar>
-          <Typography variant='h6' color='inherit' noWrap>
-            やる夫の読書日記
-          </Typography>
+          <Box sx={{ flexGrow: 1 }}>
+            <Typography variant='h6' color='inherit' noWrap>
+              やる夫の読書日記
+            </Typography>
+          </Box>
+          <Box>
+            <IconButton
+              size='large'
+              edge='end'
+              aria-label='新規読書日記'
+              onClick={openForm}
+              color='inherit'
+            >
+              <AddCircleOutlineIcon />
+            </IconButton>
+          </Box>
         </Toolbar>
       </AppBar>
       <main>
@@ -63,6 +96,7 @@ const DiaryBoard = (props: DiaryBoardProps) => {
         <Copyright />
       </Box>
       {/* End footer */}
+      <DiaryFormDialog open={openDialog} diary={initialDiary} />
     </>
   );
 };
