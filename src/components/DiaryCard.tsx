@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Box from '@mui/material/Box';
 
 import { Diary } from '../diaryData';
 import DiaryCardHeader from './DiaryHeader';
@@ -26,7 +27,9 @@ interface ExpandMoreProps extends IconButtonProps {
 
 // アイコンクリックで詳細部分を表示するコンポーネント
 const ExpandMore = styled((props: ExpandMoreProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { expand, ...other } = props;
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return <IconButton {...other} />;
 })(({ theme, expand }) => ({
   transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
@@ -66,12 +69,20 @@ const DiaryCard = (props: DiaryCardProps) => {
         postDate={postDate}
         onClickCardHeaderAction={onClickCardHeaderAction}
       />
-      <CardMedia
-        component='img'
-        height='194'
-        image={imageUrl}
-        alt={imageLabel}
-      />
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <CardMedia
+          sx={{ width: '100px' }}
+          component='img'
+          image={imageUrl}
+          alt={imageLabel}
+        />
+      </Box>
       <CardContent>
         <Typography variant='body2' color='text.secondary'>
           {mainContent}
