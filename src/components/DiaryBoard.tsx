@@ -8,6 +8,7 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import IconButton from '@mui/material/IconButton';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { v4 as uuidv4 } from 'uuid';
 
 import { Diary } from '../diaryData';
 import DiaryCard from './DiaryCard';
@@ -48,8 +49,12 @@ const DiaryBoard = (props: DiaryBoardProps) => {
   // 編集対象の読書日記データ
   const [targetDiaryData, setTargetDiaryData] = useState(initialDiary);
 
-  // 編集対象データでDiaryFormDialogを開く
-  const openForm = () => setOpenDialog(true);
+  // postDateを数値に変換して比較し並べ替え
+  const diarySort = (a: Diary, b: Diary) => {
+    if (+a.postDate < +b.postDate) return -1;
+    if (+a.postDate > +b.postDate) return 1;
+    return 0;
+  };
 
   // Formにデータを渡して表示する
   const setDataToForm = (diaryId: string) => {
@@ -64,6 +69,9 @@ const DiaryBoard = (props: DiaryBoardProps) => {
       }
     }
   };
+
+  // 編集対象データでDiaryFormDialogを開く
+  const openForm = () => setDataToForm('');
 
   // 日記データの削除
   const deleteDiary = (diaryId: string) => {
@@ -85,12 +93,15 @@ const DiaryBoard = (props: DiaryBoardProps) => {
     }
   };
 
+  // データを保存
   const saveDiary = (diary: Diary) => {
     const newDiaryData = diaryData.filter((d) => d.diaryId !== diary.diaryId);
     newDiaryData.push(diary);
+    newDiaryData.sort(diarySort);
     setDiaryData(newDiaryData);
   };
 
+  // 編集フォームから呼ばれる
   const closeForm = (diary: Diary | null) => {
     // Dialogを閉じる
     setOpenDialog(false);
@@ -132,7 +143,7 @@ const DiaryBoard = (props: DiaryBoardProps) => {
       <main>
         <Container sx={{ py: 8 }} maxWidth='md'>
           <Grid container spacing={4}>
-            {diaries.map((diary) => (
+            {diaryData.map((diary) => (
               <Grid item key={diary.diaryId} xs={12} sm={6} md={4}>
                 <DiaryCard
                   diary={diary}
@@ -159,7 +170,11 @@ const DiaryBoard = (props: DiaryBoardProps) => {
         <Copyright />
       </Box>
       {/* End footer */}
-      <DiaryFormDialog open={openDialog} diary={targetDiaryData} />
+      <DiaryFormDialog
+        open={openDialog}
+        diary={targetDiaryData}
+        closeForm={closeForm}
+      />
     </>
   );
 };
