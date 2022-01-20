@@ -41,11 +41,71 @@ const Copyright = () => (
 const DiaryBoard = (props: DiaryBoardProps) => {
   const { diaries } = props;
 
+  // diary data
+  const [diaryData, setDiaryData] = useState(diaries);
   // DiaryFormDialogの開閉状態
   const [openDialog, setOpenDialog] = useState(false);
+  // 編集対象の読書日記データ
+  const [targetDiaryData, setTargetDiaryData] = useState(initialDiary);
 
-  // 新規データでDiaryFormDialogを開く
+  // 編集対象データでDiaryFormDialogを開く
   const openForm = () => setOpenDialog(true);
+
+  // Formにデータを渡して表示する
+  const setDataToForm = (diaryId: string) => {
+    if (diaryId === '') {
+      setTargetDiaryData(initialDiary);
+      setOpenDialog(true);
+    } else {
+      const editDiary = diaryData.filter((d) => d.diaryId === diaryId);
+      if (editDiary.length === 1) {
+        setTargetDiaryData(editDiary[0]);
+        setOpenDialog(true);
+      }
+    }
+  };
+
+  // 日記データの削除
+  const deleteDiary = (diaryId: string) => {
+    const newDiaryData = diaryData.filter((diary) => diary.diaryId !== diaryId);
+    setDiaryData(newDiaryData);
+  };
+
+  // 編集・削除ボタンクリック
+  const onClickCardHeaderAction = (diaryId: string, mode: string): void => {
+    switch (mode) {
+      case 'EDIT':
+        setDataToForm(diaryId);
+        break;
+      case 'DELETE':
+        deleteDiary(diaryId);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const saveDiary = (diary: Diary) => {
+    const newDiaryData = diaryData.filter((d) => d.diaryId !== diary.diaryId);
+    newDiaryData.push(diary);
+    setDiaryData(newDiaryData);
+  };
+
+  const closeForm = (diary: Diary | null) => {
+    // Dialogを閉じる
+    setOpenDialog(false);
+    if (diary !== null) {
+      // 保存
+      let newDiary: Diary;
+      if (diary.diaryId === '') {
+        const newDiaryId: string = uuidv4();
+        newDiary = { ...diary, diaryId: newDiaryId };
+      } else {
+        newDiary = { ...diary };
+      }
+      saveDiary(newDiary);
+    }
+  };
 
   return (
     <>
@@ -74,7 +134,10 @@ const DiaryBoard = (props: DiaryBoardProps) => {
           <Grid container spacing={4}>
             {diaries.map((diary) => (
               <Grid item key={diary.diaryId} xs={12} sm={6} md={4}>
-                <DiaryCard diary={diary} />
+                <DiaryCard
+                  diary={diary}
+                  onClickCardHeaderAction={onClickCardHeaderAction}
+                />
               </Grid>
             ))}
           </Grid>
@@ -96,7 +159,7 @@ const DiaryBoard = (props: DiaryBoardProps) => {
         <Copyright />
       </Box>
       {/* End footer */}
-      <DiaryFormDialog open={openDialog} diary={initialDiary} />
+      <DiaryFormDialog open={openDialog} diary={targetDiaryData} />
     </>
   );
 };

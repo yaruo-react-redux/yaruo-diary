@@ -5,18 +5,19 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Diary } from '../diaryData';
 import DiaryForm from './DiaryForm';
 
-export interface DialogDiaryFormProps {
+export type DialogDiaryFormProps = {
   open: boolean;
   diary: Diary;
-}
+  closeForm: (diaryData: Diary | null) => void;
+};
 
 const DialogDiaryForm = (props: DialogDiaryFormProps) => {
-  const { open, diary } = props;
+  const { open, diary, closeForm } = props;
 
   return (
     <Dialog open={open}>
       <DialogTitle>日記編集</DialogTitle>
-      <DiaryForm diary={diary} />
+      <DiaryForm diary={diary} closeForm={closeForm} />
     </Dialog>
   );
 };

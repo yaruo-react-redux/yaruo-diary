@@ -16,6 +16,7 @@ import DiaryCardHeader from './DiaryHeader';
 
 export type DiaryCardProps = {
   diary: Diary;
+  onClickCardHeaderAction: (diaryId: string, mode: string) => void;
 };
 
 // アイコンクリックで詳細部分を表示するためのコンポーネントのpros型
@@ -46,7 +47,7 @@ const DiaryCard = (props: DiaryCardProps) => {
   };
 
   // 受け取ったオブジェクトを変数に展開
-  const { diary } = props;
+  const { diary, onClickCardHeaderAction } = props;
   const {
     diaryId,
     title,
@@ -59,7 +60,12 @@ const DiaryCard = (props: DiaryCardProps) => {
 
   return (
     <Card sx={{ maxWidth: 345 }}>
-      <DiaryCardHeader diaryId={diaryId} title={title} postDate={postDate} />
+      <DiaryCardHeader
+        diaryId={diaryId}
+        title={title}
+        postDate={postDate}
+        onClickCardHeaderAction={onClickCardHeaderAction}
+      />
       <CardMedia
         component='img'
         height='194'

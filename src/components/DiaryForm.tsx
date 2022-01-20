@@ -10,15 +10,16 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import DataSaverOnIcon from '@mui/icons-material/DataSaverOn';
 import Stack from '@mui/material/Stack';
 
-import { convertStringToDate } from '../utilities/helper';
+import { convertStringToDate, convertDateToString } from '../utilities/helper';
 import { Diary } from '../diaryData';
 
-interface DiaryFormProps {
+type DiaryFormProps = {
   diary: Diary;
-}
+  closeForm: (diaryData: Diary | null) => void;
+};
 
 const DiaryForm = (props: DiaryFormProps) => {
-  const { diary } = props;
+  const { diary, closeForm } = props;
   const {
     diaryId,
     title,
@@ -90,10 +91,36 @@ const DiaryForm = (props: DiaryFormProps) => {
   };
 
   // 保存ボタン
-  const saveData = () => {};
+  const saveData = () => {
+    const postDateValue: Date =
+      onEditPostDate !== null ? onEditPostDate : new Date();
+
+    if (onEditTitle.length < 5 && titleRef.current !== null) {
+      titleRef.current.focus();
+      return;
+    }
+
+    if (onEditMainContent.length === 0 && mainContentRef.current !== null) {
+      mainContentRef.current.focus();
+      return;
+    }
+
+    const diaryData = {
+      diaryId,
+      title: onEditTitle,
+      postDate: convertDateToString(postDateValue),
+      mainContent: onEditMainContent,
+      readmore: onEditReadMore.split('\n\n'),
+      imageUrl: onEditImageUrl,
+      imageLabel: onEditImageLabel,
+    };
+    closeForm(diaryData);
+  };
 
   // キャンセルボタン
-  const cancelForm = () => {};
+  const cancelForm = () => {
+    closeForm(null);
+  };
 
   return (
     <Paper variant='outlined' sx={{ m: 1, py: 2 }}>

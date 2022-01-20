@@ -38,10 +38,11 @@ export type DiaryCardHeaderProps = {
   diaryId: string;
   title: string;
   postDate: string;
+  onClickCardHeaderAction: (diaryId: string, mode: string) => void;
 };
 
 const DiaryCardHeader = (props: DiaryCardHeaderProps) => {
-  const { diaryId, title, postDate } = props;
+  const { onClickCardHeaderAction, diaryId, title, postDate } = props;
 
   // menuの開閉状態を管理
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -55,19 +56,21 @@ const DiaryCardHeader = (props: DiaryCardHeaderProps) => {
     setAnchorEl(event.currentTarget);
   };
 
-  // ダイアログ表示
-  const handleClickOpenDialog = () => {
-    setOpenDialog(true);
-  };
-
   // menuを閉じる
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
 
+  // ダイアログ表示
+  const handleClickOpenDialog = () => {
+    handleCloseMenu();
+    setOpenDialog(true);
+  };
+
   // 編集メニュークリック
   const handleEdit = () => {
-    alert('編集ボタンがクリックされたお〜');
+    handleCloseMenu();
+    return onClickCardHeaderAction(diaryId, 'EDIT');
   };
 
   // 削除メニュークリック
@@ -82,7 +85,8 @@ const DiaryCardHeader = (props: DiaryCardHeaderProps) => {
 
   // ダイアログの削除ボタンクリック
   const handleConfirmDelete = () => {
-    alert('削除の確認が終わったお〜');
+    setOpenDialog(false);
+    return onClickCardHeaderAction(diaryId, 'DELETE');
   };
 
   // postDate:YYYYMMDDから月を取得し
