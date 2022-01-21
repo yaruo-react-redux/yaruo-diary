@@ -15,7 +15,7 @@ import {
   createDiaryActionCreator,
   editDiaryActionCreator,
   State,
-} from '../redux/redux-og';
+} from '../redux/redux-tk';
 
 import { Diary } from '../diaryData';
 import DiaryCard from './DiaryCard';
