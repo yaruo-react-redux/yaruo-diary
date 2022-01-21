@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import AppBar from '@mui/material/AppBar';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -10,13 +11,15 @@ import IconButton from '@mui/material/IconButton';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { v4 as uuidv4 } from 'uuid';
 
+import {
+  createDiaryActionCreator,
+  editDiaryActionCreator,
+  State,
+} from '../redux/redux-og';
+
 import { Diary } from '../diaryData';
 import DiaryCard from './DiaryCard';
 import DiaryFormDialog from './DiaryFormDialog';
-
-export type DiaryBoardProps = {
-  diaries: Diary[];
-};
 
 // diary初期化データ
 const initialDiary: Diary = {
@@ -39,26 +42,19 @@ const Copyright = () => (
   </Typography>
 );
 
-const DiaryBoard = (props: DiaryBoardProps) => {
-  const { diaries } = props;
-
-  // diary data
-  const [diaryData, setDiaryData] = useState(diaries);
+const DiaryBoard = () => {
+  // ActionCreatorから返ってきたActionをReducerへ送る
+  const dispatch = useDispatch();
+  // 読書日記データ
+  const diaryData = useSelector((state: State) => state.diaries);
   // DiaryFormDialogの開閉状態
   const [openDialog, setOpenDialog] = useState(false);
   // 編集対象の読書日記データ
   const [targetDiaryData, setTargetDiaryData] = useState(initialDiary);
 
-  // postDateを数値に変換して比較し並べ替え
-  const diarySort = (a: Diary, b: Diary) => {
-    if (+a.postDate < +b.postDate) return -1;
-    if (+a.postDate > +b.postDate) return 1;
-    return 0;
-  };
-
   // Formにデータを渡して表示する
   const setDataToForm = (diaryId: string) => {
-    if (diaryId === '') {
+    if (diaryId.length === 0) {
       setTargetDiaryData(initialDiary);
       setOpenDialog(true);
     } else {
@@ -71,34 +67,13 @@ const DiaryBoard = (props: DiaryBoardProps) => {
   };
 
   // 編集対象データでDiaryFormDialogを開く
-  const openForm = () => setDataToForm('');
-
-  // 日記データの削除
-  const deleteDiary = (diaryId: string) => {
-    const newDiaryData = diaryData.filter((diary) => diary.diaryId !== diaryId);
-    setDiaryData(newDiaryData);
+  const openForm = () => {
+    setDataToForm('');
   };
 
   // 編集・削除ボタンクリック
-  const onClickCardHeaderAction = (diaryId: string, mode: string): void => {
-    switch (mode) {
-      case 'EDIT':
-        setDataToForm(diaryId);
-        break;
-      case 'DELETE':
-        deleteDiary(diaryId);
-        break;
-      default:
-        break;
-    }
-  };
-
-  // データを保存
-  const saveDiary = (diary: Diary) => {
-    const newDiaryData = diaryData.filter((d) => d.diaryId !== diary.diaryId);
-    newDiaryData.push(diary);
-    newDiaryData.sort(diarySort);
-    setDiaryData(newDiaryData);
+  const onClickCardHeaderAction = (diaryId: string): void => {
+    setDataToForm(diaryId);
   };
 
   // 編集フォームから呼ばれる
@@ -111,10 +86,11 @@ const DiaryBoard = (props: DiaryBoardProps) => {
       if (diary.diaryId === '') {
         const newDiaryId: string = uuidv4();
         newDiary = { ...diary, diaryId: newDiaryId };
+        dispatch(createDiaryActionCreator(newDiary));
       } else {
         newDiary = { ...diary };
+        dispatch(editDiaryActionCreator(newDiary));
       }
-      saveDiary(newDiary);
     }
   };
 
