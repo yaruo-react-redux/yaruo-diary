@@ -17,7 +17,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-import { deleteDiaryActionCreator } from '../redux/redux-og';
+import { deleteDiaryActionCreator } from '../redux/redux-tk';
 
 import January from '../assets/images/month-icons/january.svg';
 import February from '../assets/images/month-icons/february.svg';
