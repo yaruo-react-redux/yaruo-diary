@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -15,6 +16,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+
+import { deleteDiaryActionCreator } from '../redux/redux-og';
 
 import January from '../assets/images/month-icons/january.svg';
 import February from '../assets/images/month-icons/february.svg';
@@ -38,10 +41,11 @@ export type DiaryCardHeaderProps = {
   diaryId: string;
   title: string;
   postDate: string;
-  onClickCardHeaderAction: (diaryId: string, mode: string) => void;
+  onClickCardHeaderAction: (diaryId: string) => void;
 };
 
 const DiaryCardHeader = (props: DiaryCardHeaderProps) => {
+  const dispatch = useDispatch();
   const { onClickCardHeaderAction, diaryId, title, postDate } = props;
 
   // menuの開閉状態を管理
@@ -70,7 +74,7 @@ const DiaryCardHeader = (props: DiaryCardHeaderProps) => {
   // 編集メニュークリック
   const handleEdit = () => {
     handleCloseMenu();
-    return onClickCardHeaderAction(diaryId, 'EDIT');
+    return onClickCardHeaderAction(diaryId);
   };
 
   // 削除メニュークリック
@@ -86,7 +90,8 @@ const DiaryCardHeader = (props: DiaryCardHeaderProps) => {
   // ダイアログの削除ボタンクリック
   const handleConfirmDelete = () => {
     setOpenDialog(false);
-    return onClickCardHeaderAction(diaryId, 'DELETE');
+    // return onClickCardHeaderAction(diaryId, 'DELETE');
+    dispatch(deleteDiaryActionCreator({ diaryId }));
   };
 
   // postDate:YYYYMMDDから月を取得し

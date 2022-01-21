@@ -17,7 +17,7 @@ import DiaryCardHeader from './DiaryHeader';
 
 export type DiaryCardProps = {
   diary: Diary;
-  onClickCardHeaderAction: (diaryId: string, mode: string) => void;
+  onClickCardHeaderAction: (diaryId: string) => void;
 };
 
 // アイコンクリックで詳細部分を表示するためのコンポーネントのpros型

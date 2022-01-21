@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import App from './components/App';
 
+import store from './redux/redux-og';
+
 ReactDOM.render(
-  <div>
+  <Provider store={store}>
     <App />
-  </div>,
+  </Provider>,
   document.getElementById('root')
 );
