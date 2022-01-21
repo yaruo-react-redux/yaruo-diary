@@ -31,4 +31,12 @@
   06_implements_data_save
   </dt>
   <dd>データの追加・編集・削除の機能を実装する</dd>
+  <dt>
+  07_install-redux
+  </dt>
+  <dd>状態管理にReduxを使う</dd>
+  <dt>
+  08_install-redux-toolkit
+  </dt>
+  <dd>redux-toolkitで楽々</dd>
 </dl>
